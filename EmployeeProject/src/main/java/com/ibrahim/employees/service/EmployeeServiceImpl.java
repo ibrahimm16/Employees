@@ -1,11 +1,16 @@
 package com.ibrahim.employees.service;
 
+import com.ibrahim.employees.pojo.Employee;
 import com.ibrahim.employees.pojo.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,5 +62,18 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList())
         );
         return employeeDTO;
+    }
+
+    @Override
+    public Map<Integer, List<Employee>> getEmployeesGroupedByAge() {
+        Map<Integer, List<Employee>> employeeMap = new HashMap<>();
+        EmployeeDTO employeeDTO = getEmployees();
+        employeeDTO.getEmployees()
+                .forEach((e) -> {
+                    List<Employee> employees = employeeMap.getOrDefault(e.getEmployee_age(), new ArrayList<>());
+                    employees.add(e);
+                    employeeMap.put(e.getEmployee_age(), employees);
+                });
+        return employeeMap;
     }
 }
