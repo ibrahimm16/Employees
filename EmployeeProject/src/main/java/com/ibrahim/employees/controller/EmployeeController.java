@@ -32,7 +32,7 @@ public class EmployeeController {
     }
 
     @GetMapping(params = "age")
-    public EmployeeDTO getEmployeesByName(@RequestParam Integer age) {
+    public EmployeeDTO getEmployeesByAge(@RequestParam Integer age) {
         return employeeService.getEmployeesByAge(age);
     }
 }
