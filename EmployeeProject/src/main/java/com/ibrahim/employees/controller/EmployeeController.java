@@ -1,9 +1,13 @@
 package com.ibrahim.employees.controller;
 
+import com.ibrahim.employees.pojo.Employee;
 import com.ibrahim.employees.pojo.EmployeeDTO;
 import com.ibrahim.employees.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
@@ -17,8 +21,8 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public EmployeeDTO getEmployees() {
-        return employeeService.getEmployees();
+    public Map<Integer, List<Employee>> getEmployees() {
+        return employeeService.getEmployeesGroupedByAge();
     }
 
     @GetMapping(params = "maxAge")
@@ -32,7 +36,7 @@ public class EmployeeController {
     }
 
     @GetMapping(params = "age")
-    public EmployeeDTO getEmployeesByAge(@RequestParam Integer age) {
+    public EmployeeDTO getEmployeesByName(@RequestParam Integer age) {
         return employeeService.getEmployeesByAge(age);
     }
 }
