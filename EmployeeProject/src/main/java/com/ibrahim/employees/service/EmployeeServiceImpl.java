@@ -66,14 +66,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Map<Integer, List<Employee>> getEmployeesGroupedByAge() {
-        Map<Integer, List<Employee>> employeeMap = new HashMap<>();
         EmployeeDTO employeeDTO = getEmployees();
-        employeeDTO.getEmployees()
-                .forEach((e) -> {
-                    List<Employee> employees = employeeMap.getOrDefault(e.getEmployee_age(), new ArrayList<>());
-                    employees.add(e);
-                    employeeMap.put(e.getEmployee_age(), employees);
-                });
-        return employeeMap;
+        return employeeDTO.getEmployees()
+                .stream()
+                .collect(Collectors.groupingBy(Employee::getEmployee_age, Collectors.toList()));
     }
 }
